@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Sembrando Huellas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --primary-light: #4caf50;
+            --secondary: #388e3c;
+            --accent: #8bc34a;
+            --light: #f1f8e9;
+            --dark: #333;
+            --gray: #f5f5f5;
+            --gray-dark: #e0e0e0;
+            --text: #333;
+            --text-light: #777;
+            --white: #ffffff;
+            --shadow: 0 2px 10px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--gray);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Header Mobile */
+        .mobile-header {
+            display: none;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .mobile-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-mobile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Layout Principal */
+        .dashboard-container {
+            display: flex;
+            flex: 1;
+            margin-top: 0;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            transition: var(--transition);
+            z-index: 900;
+            transform: translateX(0);
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-header h2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .sidebar-header h2 i {
+            color: var(--accent);
+        }
+        
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+        
+        .menu-item {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background-color: rgba(255,255,255,0.1);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+            transition: var(--transition);
+            min-height: 100vh;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--white);
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--gray);
+            border-radius: 30px;
+            padding: 8px 15px;
+            flex: 1;
+            min-width: 200px;
+            max-width: 400px;
+        }
+        
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .card-icon.users {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--primary);
+        }
+        
+        .card-icon.posts {
+            background-color: rgba(139, 195, 74, 0.2);
+            color: var(--accent);
+        }
+        
+        .card-icon.activities {
+            background-color: rgba(46, 125, 50, 0.2);
+            color: var(--primary-dark);
+        }
+        
+        .card-icon.volunteers {
+            background-color: rgba(56, 142, 60, 0.2);
+            color: var(--secondary);
+        }
+        
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-dark);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .section-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7cb342;
+        }
+        
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-dark);
+            font-size: 0.9rem;
+        }
+        
+        th {
+            background-color: var(--light);
+            color: var(--primary);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background-color: var(--light);
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .status.active {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--primary);
+        }
+        
+        .status.pending {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: #f57c00;
+        }
+        
+        .status.inactive {
+            background-color: rgba(189, 189, 189, 0.2);
+            color: #757575;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.8rem;
+        }
+        
+        .edit {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: #2196f3;
+        }
+        
+        .delete {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+        
+        .view {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--primary);
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Forms */
+        .form-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-dark);
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: modalFade 0.3s;
+        }
+        
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--gray-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1;
+        }
+        
+        .modal-header h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+        }
+        
+        .modal-body {
+            padding: 20px 25px;
+        }
+        
+        .modal-footer {
+            padding: 15px 25px;
+            border-top: 1px solid var(--gray-dark);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+        
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Overlay para móviles */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 800;
+        }
+        
+        /* Responsive Design */
+        /* Tablets */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 220px;
+            }
+            
+            .main-content {
+                margin-left: 220px;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        
+        /* Tablets pequeñas y móviles grandes */
+        @media (max-width: 768px) {
+            .mobile-header {
+                display: block;
+            }
+            
+            .dashboard-container {
+                margin-top: 60px;
+            }
+            
+            .sidebar {
+                width: 280px;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .top-bar {
+                padding: 15px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-bar {
+                max-width: 100%;
+            }
+            
+            .user-info {
+                justify-content: center;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .card h3 {
+                font-size: 1.5rem;
+            }
+            
+            .content-section {
+                padding: 15px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .section-header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .sidebar-overlay.active {
+                display: block;
+            }
+        }
+        
+        /* Móviles */
+        @media (max-width: 576px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+            
+            .top-bar {
+                padding: 12px;
+                border-radius: 8px;
+            }
+            
+            .card {
+                padding: 15px 12px;
+            }
+            
+            .content-section {
+                padding: 15px 12px;
+                border-radius: 8px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .modal {
+                padding: 10px;
+            }
+            
+            .modal-content {
+                max-height: 95vh;
+            }
+            
+            .modal-header, .modal-body, .modal-footer {
+                padding: 15px 20px;
+            }
+            
+            th, td {
+                padding: 10px 12px;
+            }
+            
+            .actions {
+                gap: 5px;
+            }
+            
+            .action-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 0.7rem;
+            }
+        }
+        
+        /* Móviles muy pequeños */
+        @media (max-width: 380px) {
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .card-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .card h3 {
+                font-size: 1.3rem;
+            }
+            
+            .user-details {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Mobile -->
+    <div class="mobile-header">
+        <div class="mobile-header-content">
+            <div class="logo-mobile">
+                <i class="fas fa-seedling"></i>
+                <span>Panel de Control</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay para móviles -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-seedling"></i> <span>Panel de Control</span></h2>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Gestión de Usuarios</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Gestión de Publicaciones</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Eventos y Actividades</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Estadísticas</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-details">
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">Administrador</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3>1,254</h3>
+                            <p>Usuarios Registrados</p>
+                        </div>
+                        <div class="card-icon users">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3>342</h3>
+                            <p>Publicaciones Activas</p>
+                        </div>
+                        <div class="card-icon posts">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3>56</h3>
+                            <p>Actividades Programadas</p>
+                        </div>
+                        <div class="card-icon activities">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3>892</h3>
+                            <p>Voluntarios Activos</p>
+                        </div>
+                        <div class="card-icon volunteers">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestión de Usuarios -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Gestión de Usuarios</h2>
+                    <button class="btn btn-primary" id="addUserBtn">
+                        <i class="fas fa-plus"></i> Agregar Usuario
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Fecha de Registro</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>María González</td>
+                                <td>maria@ejemplo.com</td>
+                                <td>Voluntario</td>
+                                <td>15/03/2023</td>
+                                <td><span class="status active">Activo</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <div class="action-btn edit"><i class="fas fa-edit"></i></div>
+                                        <div class="action-btn delete"><i class="fas fa-trash"></i></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Carlos López</td>
+                                <td>carlos@ejemplo.com</td>
+                                <td>Administrador</td>
+                                <td>10/02/2023</td>
+                                <td><span class="status active">Activo</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <div class="action-btn edit"><i class="fas fa-edit"></i></div>
+                                        <div class="action-btn delete"><i class="fas fa-trash"></i></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ana Martínez</td>
+                                <td>ana@ejemplo.com</td>
+                                <td>Colaborador</td>
+                                <td>22/04/2023</td>
+                                <td><span class="status pending">Pendiente</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <div class="action-btn edit"><i class="fas fa-edit"></i></div>
+                                        <div class="action-btn delete"><i class="fas fa-trash"></i></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Javier Rodríguez</td>
+                                <td>javier@ejemplo.com</td>
+                                <td>Voluntario</td>
+                                <td>05/01/2023</td>
+                                <td><span class="status inactive">Inactivo</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <div class="action-btn edit"><i class="fas fa-edit"></i></div>
+                                        <div class="action-btn delete"><i class="fas fa-trash"></i></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Gestión de Publicaciones -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Gestión de Publicaciones</h2>
+                    <button class="btn btn-secondary" id="addPostBtn">
+                        <i class="fas fa-plus"></i> Nueva Publicación
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Categoría</th>
+                                <th>Autor</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Reforestación en el Parque Central</td>
+                                <td>Actividades</td>
+                                <td>María González</td>
+                                <td>10/05/2023</td>
+                                <td><span class="status active">Publicado</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <div class="action-btn view"><i class="fas fa-eye"></i></div>
+                                        <div class="action-btn edit"><i class="fas fa-edit"></i></div>
+                                        <div class="action-btn delete"><i class="fas fa-trash"></i></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Consejos para Reducir el Plástico</td>
+                                <td>Educación</td>
+                                <td>Carlos López</td>
+                                <td>05/05/2023</td>
+                                <td><span class="status active">Publicado</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <div class="action-btn view"><i class="fas fa-eye"></i></div>
+                                        <div class="action-btn edit"><i class="fas fa-edit"></i></div>
+                                        <div class="action-btn delete"><i class="fas fa-trash"></i></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Resultados de la Campaña de Limpieza</td>
+                                <td>Noticias</td>
+                                <td>Ana Martínez</td>
+                                <td>28/04/2023</td>
+                                <td><span class="status pending">Borrador</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <div class="action-btn view"><i class="fas fa-eye"></i></div>
+                                        <div class="action-btn edit"><i class="fas fa-edit"></i></div>
+                                        <div class="action-btn delete"><i class="fas fa-trash"></i></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar Usuario -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Usuario</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Nombre</label>
+                            <input type="text" id="firstName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Apellido</label>
+                            <input type="text" id="lastName" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Rol</label>
+                        <select id="role" class="form-control" required>
+                            <option value="">Seleccionar rol</option>
+                            <option value="admin">Administrador</option>
+                            <option value="collaborator">Colaborador</option>
+                            <option value="volunteer">Voluntario</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" class="form-control" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelUserBtn">Cancelar</button>
+                <button class="btn btn-primary" id="saveUserBtn">Guardar Usuario</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar Publicación -->
+    <div class="modal" id="addPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nueva Publicación</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="postForm">
+                    <div class="form-group">
+                        <label for="postTitle">Título</label>
+                        <input type="text" id="postTitle" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postCategory">Categoría</label>
+                        <select id="postCategory" class="form-control" required>
+                            <option value="">Seleccionar categoría</option>
+                            <option value="news">Noticias</option>
+                            <option value="activities">Actividades</option>
+                            <option value="education">Educación</option>
+                            <option value="events">Eventos</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="postContent">Contenido</label>
+                        <textarea id="postContent" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="postImage">Imagen</label>
+                        <input type="file" id="postImage" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelPostBtn">Cancelar</button>
+                <button class="btn btn-secondary" id="savePostBtn">Publicar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle del menú en móviles
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        });
+        
+        sidebarOverlay.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+        
+        // Cerrar menú al hacer clic en un enlace (en móviles)
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+        });
+        
+        // Funcionalidad de los modales
+        const addUserBtn = document.getElementById('addUserBtn');
+        const addUserModal = document.getElementById('addUserModal');
+        const cancelUserBtn = document.getElementById('cancelUserBtn');
+        const closeUserModal = document.querySelector('#addUserModal .close-modal');
+
+        const addPostBtn = document.getElementById('addPostBtn');
+        const addPostModal = document.getElementById('addPostModal');
+        const cancelPostBtn = document.getElementById('cancelPostBtn');
+        const closePostModal = document.querySelector('#addPostModal .close-modal');
+
+        // Abrir modal de usuario
+        addUserBtn.addEventListener('click', function() {
+            addUserModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Cerrar modal de usuario
+        function closeUserModalFunc() {
+            addUserModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        cancelUserBtn.addEventListener('click', closeUserModalFunc);
+        closeUserModal.addEventListener('click', closeUserModalFunc);
+
+        // Abrir modal de publicación
+        addPostBtn.addEventListener('click', function() {
+            addPostModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Cerrar modal de publicación
+        function closePostModalFunc() {
+            addPostModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        cancelPostBtn.addEventListener('click', closePostModalFunc);
+        closePostModal.addEventListener('click', closePostModalFunc);
+
+        // Cerrar modales al hacer clic fuera
+        window.addEventListener('click', function(event) {
+            if (event.target === addUserModal) {
+                closeUserModalFunc();
+            }
+            if (event.target === addPostModal) {
+                closePostModalFunc();
+            }
+        });
+
+        // Simulación de guardado de formularios
+        document.getElementById('saveUserBtn').addEventListener('click', function() {
+            alert('Usuario guardado correctamente');
+            document.getElementById('userForm').reset();
+            closeUserModalFunc();
+        });
+
+        document.getElementById('savePostBtn').addEventListener('click', function() {
+            alert('Publicación guardada correctamente');
+            document.getElementById('postForm').reset();
+            closePostModalFunc();
+        });
+
+        // Simulación de acciones en las tablas
+        document.querySelectorAll('.action-btn.edit').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('Editar elemento');
+            });
+        });
+
+        document.querySelectorAll('.action-btn.delete').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(confirm('¿Estás seguro de que quieres eliminar este elemento?')) {
+                    alert('Elemento eliminado');
+                }
+            });
+        });
+
+        document.querySelectorAll('.action-btn.view').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('Ver detalles');
+            });
+        });
+        
+        // Ajustar el diseño en redimensionamiento
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
