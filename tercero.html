@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sembrando Huellas PERU | Cuidamos la Amazonía</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        :root {
+            --color-primario: #114232;
+            --color-secundario: #87A922;
+            --color-acento: #FF8A08;
+            --color-fondo: #F6F5F2;
+            --color-texto: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        nav {
+            background-color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        nav .logo {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--color-primario);
+            display: flex;
+            align-items: center;
+        }
+
+        nav .logo i {
+            margin-right: 8px;
+        }
+
+        nav .menu {
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        nav .menu a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--color-texto);
+            font-weight: 500;
+            position: relative;
+        }
+
+        nav .menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--color-secundario);
+            transition: width 0.3s ease;
+        }
+
+        nav .menu a:hover::after {
+            width: 100%;
+        }
+
+        nav .menu a:hover {
+            color: var(--color-secundario);
+        }
+
+        /* Menú hamburguesa */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: var(--color-primario);
+        }
+
+        /* HERO */
+        .hero {
+            height: 90vh;
+            min-height: 500px;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            padding: 0 5%;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-content {
+            z-index: 10;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2em, 5vw, 3.4em);
+            margin-bottom: 0.4em;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: clamp(1em, 2.5vw, 1.3em);
+            margin-bottom: 1.8em;
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: .3s;
+            color: white;
+            display: inline-block;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn-green { background-color: var(--color-secundario); }
+        .btn-green:hover { background-color: var(--color-primario); }
+
+        .btn-orange { background-color: var(--color-acento); }
+        .btn-orange:hover { background-color: #cc6e06; }
+
+        /* SECCIÓN MISIÓN */
+        .mission-section {
+            padding: 80px 5%;
+            background-color: white;
+            text-align: center;
+        }
+
+        .mission-section h2 {
+            font-size: clamp(1.8em, 4vw, 2.4em);
+            color: var(--color-primario);
+            margin-bottom: 40px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            background-color: var(--color-fondo);
+            width: 100%;
+            max-width: 350px;
+            min-width: 260px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: 0.3s;
+            text-align: center;
+            flex: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+
+        .card i {
+            font-size: 2.8em;
+            color: var(--color-secundario);
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: var(--color-secundario);
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .card p {
+            line-height: 1.6;
+        }
+
+        /* SECCION QUIÉNES SOMOS */
+        .about {
+            padding: 80px 5%;
+            background-color: var(--color-fondo);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .about img {
+            width: 100%;
+            max-width: 420px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .about-text {
+            max-width: 600px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-text h2 {
+            color: var(--color-primario);
+            font-size: clamp(1.8em, 4vw, 2.4em);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            font-size: 1.1em;
+            line-height: 1.7em;
+            margin-bottom: 20px;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--color-primario);
+            color: white;
+            padding: 30px 5%;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            margin: 0 12px;
+            color: white;
+            font-size: 1.8em;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--color-secundario);
+        }
+
+        /* MEDIA QUERIES */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8em;
+            }
+            
+            .about {
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 5%;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            nav .menu {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 40px;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+            }
+            
+            nav .menu.active {
+                right: 0;
+            }
+            
+            nav .menu a {
+                margin: 15px 0;
+                font-size: 1.2em;
+            }
+            
+            .hero {
+                height: 80vh;
+                min-height: 400px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2em;
+            }
+            
+            .hero p {
+                font-size: 1.1em;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                margin: 8px;
+                font-size: 0.95em;
+            }
+            
+            .mission-section, .about {
+                padding: 60px 5%;
+            }
+            
+            .about {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .about-text {
+                order: 2;
+            }
+            
+            .about img {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 576px) {
+            nav .logo {
+                font-size: 1.2em;
+            }
+            
+            .hero {
+                height: 70vh;
+                min-height: 350px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8em;
+            }
+            
+            .hero p {
+                font-size: 1em;
+            }
+            
+            .btn {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+                max-width: 250px;
+            }
+            
+            .mission-section, .about {
+                padding: 40px 5%;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            footer {
+                padding: 25px 5%;
+            }
+            
+            .social-links a {
+                margin: 0 8px;
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .hero h1 {
+                font-size: 1.6em;
+            }
+            
+            .hero p {
+                font-size: 0.9em;
+            }
+            
+            .card {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><i class="fas fa-seedling"></i> Sembrando Huellas PERU</div>
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="menu" id="menu">
+            <a href="#inicio">Inicio</a>
+            <a href="#mision">Misión</a>
+            <a href="#about">Quiénes Somos</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+    </nav>
+
+    <header class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Cuidamos la Amazonía, Formamos Líderes Ambientales.</h1>
+            <p>Educación, reforestación y conservación para proteger nuestro hogar: la Amazonía peruana.</p>
+
+            <a href="proyectos.html" class="btn btn-green">Ver Proyectos</a>
+            <a href="dona.html" class="btn btn-orange">¡Quiero Donar!</a>
+        </div>
+    </header>
+
+    <section class="mission-section" id="mision">
+        <h2>Nuestra Huella Ambiental</h2>
+
+        <div class="cards">
+            <div class="card">
+                <i class="fas fa-leaf"></i>
+                <h3>Educación Ambiental</h3>
+                <p>Formamos "Semillitas Verdes" con programas educativos en comunidades nativas.</p>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-tree"></i>
+                <h3>Reforestación</h3>
+                <p>Plantamos árboles y recuperamos zonas afectadas para restaurar la biodiversidad.</p>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-paw"></i>
+                <h3>Fauna Silvestre</h3>
+                <p>Protegemos especies en peligro y promovemos el respeto por nuestros animales.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <img src="https://www.peru.travel/Contenido/General/Imagen/es/1110/1.1/amazonia-desktop.jpg" alt="Amazonia Peruana">
+
+        <div class="about-text">
+            <h2>¿Quiénes Somos?</h2>
+            <p>
+                Somos una organización comprometida con el cuidado del medio ambiente, trabajando directamente en la Amazonía
+                peruana. Nuestro objetivo es educar, reforestar, y proteger la fauna silvestre promoviendo una cultura de amor
+                y respeto por la naturaleza.
+            </p>
+            <p>
+                Con la ayuda de voluntarios, comunidades locales y aliados estratégicos, buscamos dejar una huella positiva en
+                la Tierra y en las nuevas generaciones.
+            </p>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <p>© 2025 Sembrando Huellas PERU | Todos los derechos reservados</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/SembrandoHuellasPERU/" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/sembrando.huellas.peru/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@sembrandohuallasperu4288" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="mailto:contacto@sembrandohuellasperu.org" target="_blank"><i class="fas fa-envelope"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Menú hamburguesa
+        const hamburger = document.getElementById('hamburger');
+        const menu = document.getElementById('menu');
+        
+        hamburger.addEventListener('click', () => {
+            menu.classList.toggle('active');
+            
+            // Cambiar icono
+            const icon = hamburger.querySelector('i');
+            if (menu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Cerrar menú al hacer clic en un enlace
+        const menuLinks = document.querySelectorAll('.menu a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('active');
+                const icon = hamburger.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+    </script>
+</body>
+</html>

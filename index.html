@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sembrando vida - Protección Ambiental</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables de diseño */
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --accent-color: #8bc34a;
+            --light-color: #e8f5e9;
+            --dark-color: #1b5e20;
+            --text-color: #333;
+            --text-light: #fff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: var(--dark-color);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 180px 0 100px;
+            margin-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Issues Section */
+        .issues {
+            background-color: var(--light-color);
+        }
+
+        .issues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .issue-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .issue-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .issue-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .issue-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .issue-card:hover .issue-img img {
+            transform: scale(1.1);
+        }
+
+        .issue-content {
+            padding: 25px;
+        }
+
+        .issue-content h3 {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        /* Solutions Section */
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .solution-card {
+            text-align: center;
+            padding: 40px 25px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .solution-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .solution-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(rgba(46, 125, 50, 0.9), rgba(46, 125, 50, 0.9)), url('https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 70px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: var(--shadow);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-leaf"></i>
+                    Sembrando Vida
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#acerca">Acerca</a></li>
+                    <li><a href="#problemas">Problemas</a></li>
+                    <li><a href="#soluciones">Soluciones</a></li>
+                    <li><a href="#involucrate">Involúcrate</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h1>Protegiendo Nuestro Planeta para las Futuras Generaciones</h1>
+            <p>Únete a nuestra misión de conservar el medio ambiente y crear un futuro sostenible para todos los seres vivos.</p>
+            <a href="#involucrate" class="btn">Involúcrate Ahora</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="acerca">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestra Misión</h2>
+                <p>Trabajamos incansablemente para proteger los ecosistemas y promover prácticas sostenibles en todo el mundo.</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Comprometidos con un Futuro Verde</h3>
+                    <p>En Sembrando Huellas, creemos que cada acción cuenta cuando se trata de proteger nuestro planeta. Nuestra organización se dedica a la conservación de la biodiversidad, la promoción de energías renovables y la educación ambiental.</p>
+                    <p>Desde 2010, hemos trabajado en más de 50 países, implementando proyectos que han resultado en la protección de más de 1 millón de hectáreas de bosques y la reducción de millones de toneladas de emisiones de carbono.</p>
+                    <p>Nuestro enfoque se basa en la colaboración con comunidades locales, gobiernos y empresas para crear soluciones efectivas y duraderas.</p>
+                    <a href="#" class="btn btn-outline">Conoce Más</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Naturaleza protegida">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Issues Section -->
+    <section class="issues" id="problemas">
+        <div class="container">
+            <div class="section-title">
+                <h2>Problemas Ambientales Críticos</h2>
+                <p>Estos son algunos de los desafíos más urgentes que enfrenta nuestro planeta hoy en día.</p>
+            </div>
+            <div class="issues-grid">
+                <div class="issue-card">
+                    <div class="issue-img">
+                        <img src="https://images.unsplash.com/photo-1615751072497-5f5169febe17?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Cambio climático">
+                    </div>
+                    <div class="issue-content">
+                        <h3>Cambio Climático</h3>
+                        <p>El aumento de temperaturas globales está causando fenómenos meteorológicos extremos, derretimiento de glaciares y aumento del nivel del mar.</p>
+                    </div>
+                </div>
+                <div class="issue-card">
+                    <div class="issue-img">
+                        <img src="https://images.unsplash.com/photo-1558640476-437a2e9b7a7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Deforestación">
+                    </div>
+                    <div class="issue-content">
+                        <h3>Deforestación</h3>
+                        <p>Cada año, perdemos millones de hectáreas de bosques, lo que amenaza la biodiversidad y contribuye al cambio climático.</p>
+                    </div>
+                </div>
+                <div class="issue-card">
+                    <div class="issue-img">
+                        <img src="https://images.unsplash.com/photo-1582053435146-9a351cb96d99?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Contaminación plástica">
+                    </div>
+                    <div class="issue-content">
+                        <h3>Contaminación Plástica</h3>
+                        <p>Millones de toneladas de plástico terminan en nuestros océanos cada año, afectando la vida marina y los ecosistemas acuáticos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions" id="soluciones">
+        <div class="container">
+            <div class="section-title">
+                <h2>Soluciones Sostenibles</h2>
+                <p>Descubre cómo podemos trabajar juntos para abordar estos desafíos ambientales.</p>
+            </div>
+            <div class="solutions-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-solar-panel"></i>
+                    </div>
+                    <h3>Energías Renovables</h3>
+                    <p>Promovemos la transición a fuentes de energía limpias como la solar, eólica e hidroeléctrica.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <h3>Economía Circular</h3>
+                    <p>Fomentamos prácticas de reducción, reutilización y reciclaje para minimizar los residuos.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3>Reforestación</h3>
+                    <p>Plantamos árboles y restauramos ecosistemas degradados para recuperar la biodiversidad.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Educación Ambiental</h3>
+                    <p>Capacitamos a comunidades sobre prácticas sostenibles y conservación de recursos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="involucrate">
+        <div class="container">
+            <h2>Únete a Nuestra Causa</h2>
+            <p>Tu apoyo puede marcar la diferencia. Juntos podemos crear un planeta más saludable y sostenible para las generaciones futuras.</p>
+            <a href="#" class="btn">Hazte Voluntario</a>
+            <a href="#" class="btn">Donar Ahora</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Sembrando huellas</h3>
+                    <p>Organización sin fines de lucro dedicada a la protección del medio ambiente y la promoción de la sostenibilidad.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#acerca">Acerca de Nosotros</a></li>
+                        <li><a href="#problemas">Problemas Ambientales</a></li>
+                        <li><a href="#soluciones">Nuestras Soluciones</a></li>
+                        <li><a href="#involucrate">Involúcrate</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Proyectos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Reforestación Amazónica</a></li>
+                        <li><a href="#">Limpieza de Océanos</a></li>
+                        <li><a href="#">Energías Renovables</a></li>
+                        <li><a href="#">Educación Ambiental</a></li>
+                        <li><a href="#">Conservación de Especies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Pucallpa, Ucayali, Perú (Sede Amazónica)</li>
+                        <li><i class="fas fa-phone"></i> +51 987 654 321</li>
+                        <li><i class="fas fa-envelope"></i>Info@sembrandohuellas.org</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Sembrando Huellas - Protección Ambiental. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
